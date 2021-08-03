@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { get } from 'config';
-import Jwt from '../services/jwt';
-import User from '../services/user';
+import Jwt from '../services/jwt.service';
+import User from '../services/user.service';
 import AuthTypes from '../types/enums/AuthTypes';
 import IProtected from '../types/interfaces/IProtected';
 

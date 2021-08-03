@@ -5,9 +5,9 @@ import { get } from 'config';
 import { UserControllerHandler, UserCredential } from '../types/types/UserControllerHandler';
 import { IUserController } from '../types/interfaces/IUserController';
 import IUserRequestSchema from '../types/interfaces/IUserSchema';
-import UserService from '../services/user';
+import UserService from '../services/user.service';
 import Controller from './controller';
-import Jwt from '../services/jwt';
+import Jwt from '../services/jwt.service';
 
 class UserController
   extends Controller<ValidatedRequest<IUserRequestSchema>>

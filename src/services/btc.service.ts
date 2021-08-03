@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { get } from 'config';
 
-class Btc {
+class BtcService {
   static async getPrice({ coins }) {
     const { data: { bpi: { UAH } } } = await axios.get(get('btcApi'));
 
@@ -12,4 +12,4 @@ class Btc {
   }
 }
 
-export default Btc;
+export default BtcService;

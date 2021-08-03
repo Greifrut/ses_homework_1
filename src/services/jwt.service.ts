@@ -9,7 +9,7 @@ interface IPubToken {
   privateToken: string
 }
 
-class Jwt {
+class JwtService {
   private readonly publicSecret: string = config.get('jwt.publicTokenSecret');
 
   private readonly privateSecret: string = config.get('jwt.privateTokenSecret');
@@ -29,16 +29,16 @@ class Jwt {
     try {
       const { email, privateToken } = this.decodeToken<IPubToken>(pubToken);
 
-      Jwt.isAuthValid(() => !!email && !!privateToken);
+      JwtService.isAuthValid(() => !!email && !!privateToken);
 
-      const user = await Jwt.getUser(email);
+      const user = await JwtService.getUser(email);
 
-      Jwt.isAuthValid(() => !!user);
+      JwtService.isAuthValid(() => !!user);
 
       const { password, exp } = this.decodeToken<PrivateToken>(privateToken);
 
-      Jwt.isAuthValid(() => password !== user.password);
-      Jwt.isAuthValid(() => Date.now() > this.tokenExpireDate(exp));
+      JwtService.isAuthValid(() => password !== user.password);
+      JwtService.isAuthValid(() => Date.now() > this.tokenExpireDate(exp));
     } catch (e) {
       throw new Error(e.message);
     }
@@ -66,4 +66,4 @@ class Jwt {
   }
 }
 
-export default new Jwt();
+export default new JwtService();

@@ -5,12 +5,12 @@ interface IUser {
   password: string
 }
 
-class User {
+class UserService {
   dbName: string = 'users';
 
   async login({ email, password }: IUser) {
     const userDb = await Db.read(this.dbName);
-    const user = userDb.where('email', email).query()[0];
+    const user = userDb.where(<IUser>(user) => user.email == email).query<IUser>()[0];
 
     if (!user) throw new Error("UserService doesn't exist");
 
@@ -19,7 +19,7 @@ class User {
 
   async register(userCredentials: IUser) {
     const userDb = await Db.read(this.dbName);
-    const existingUser = userDb.where('email', userCredentials.email).query();
+    const existingUser = userDb.where(<IUser>(user) => user.email == userCredentials.email).query<IUser>();
 
     if (existingUser.length > 0) throw new Error('UserService exist');
 
@@ -32,4 +32,4 @@ class User {
   }
 }
 
-export default new User();
+export default new UserService();
