@@ -20,7 +20,7 @@ class Protected implements IProtected {
       if (this.hasTokenInCookies()) {
         await this.checkCookies();
       } else {
-        await this.checkAuthHeader();
+        await this.isAuthTypeValid();
       }
 
       next();
@@ -42,8 +42,8 @@ class Protected implements IProtected {
     await Jwt.verify(token);
   }
 
-  private async checkAuthHeader() {
-    const authType: AuthTypes | null = this.getAuthorizationType();
+  private async isAuthTypeValid() {
+    const authType: AuthTypes | null = this.getAuthTypeFromRequestHeader();
 
     if (!authType) this.res.status(404).send('Provide valid authorization');
 
@@ -52,7 +52,7 @@ class Protected implements IProtected {
     await verifier();
   }
 
-  private getAuthorizationType(): AuthTypes {
+  private getAuthTypeFromRequestHeader(): AuthTypes {
     const { headers: { authorization } } = this.req;
 
     if (!authorization) return null;
