@@ -29,11 +29,11 @@ class JwtService {
     try {
       const { email, privateToken } = this.decodeToken<IPubToken>(pubToken);
 
-      JwtService.isAuthValid(() => !!email && !!privateToken);
+      JwtService.isAuthValid(() => email && privateToken);
 
       const user = await JwtService.getUser(email);
 
-      JwtService.isAuthValid(() => !!user);
+      JwtService.isAuthValid(() => user);
 
       const { password, exp } = this.decodeToken<PrivateToken>(privateToken);
 
